@@ -1,18 +1,20 @@
 import pygame as pg
 
 from snake import Snake
+from food import Food
+from score import ScoreBoard
 
-WINDOW_SIZE = (600, 600)
+WINDOW_LEN = 600
+WINDOW_DIM = (WINDOW_LEN, WINDOW_LEN)
 
 pg.init()
 pg.display.set_caption("SNEK")
 
+window = pg.display.set_mode(WINDOW_DIM)
 clock = pg.time.Clock()
-snake = Snake()
-
-window = pg.display.set_mode(WINDOW_SIZE)
-
-rect = pg.Rect(300, 300, 15, 15)
+score_board = ScoreBoard(window, WINDOW_LEN)
+snake = Snake(window)
+food_ = Food(window, WINDOW_LEN)
 
 
 running = True
@@ -25,15 +27,28 @@ while running:
         if event.type == pg.QUIT:
             running = False
 
-        snake.snake_movements(event)
+        snake.event_handler(event)
 
-    rect.x += snake.move_x
-    rect.y += snake.move_y
+    food = food_.create_food()
 
-    pg.draw.rect(window, "blue", rect)
+    border = score_board.create_border()
+
+    snake.draw_snake()
+    snake.move_snake()
+
+    # Collision with food
+    if snake.head.colliderect(food):
+        snake.extend()
+        food_.new_food()
+        food = food_.create_food()
+
+    # Collision with self
+    if snake.head.collidelist(snake.body[1:]) != -1:
+        print("COLLISION")
+        running = False
 
     pg.display.update()
 
-    clock.tick(60)
+    clock.tick(10)
 
 pg.quit()
