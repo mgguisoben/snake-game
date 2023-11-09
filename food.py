@@ -1,13 +1,15 @@
-from random import randint
+from random import randrange
 
 from pygame import draw
 
 
 class Food:
 
-    def __init__(self, window, window_lt):
+    def __init__(self, window, window_lt, snake_size):
         self.window = window
-        self.lt = window_lt - 22
+        self.radius = snake_size / 2
+        self.start = snake_size + 16
+        self.stop = window_lt - 32
 
         self.x = 0
         self.y = 0
@@ -15,9 +17,9 @@ class Food:
         self.new_food()
 
     def create_food(self):
-        food = draw.circle(self.window, "red", (self.x, self.y), 8, 0, True, True, True, True)
+        food = draw.circle(self.window, "red", (self.x, self.y), self.radius)
         return food
 
     def new_food(self):
-        self.x = randint(20, self.lt)
-        self.y = randint(50, self.lt)
+        self.x = randrange(self.start, self.stop)
+        self.y = randrange(self.start, self.stop)

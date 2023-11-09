@@ -1,14 +1,14 @@
 import pygame as pg
 
-SIZE = 20
-MOVE = SIZE
-
 
 class Snake:
 
-    def __init__(self, window):
+    def __init__(self, window, snake_size):
         self.window = window
-        self.move_x = MOVE
+        self.lt = self.window.get_width()
+        self.size = snake_size
+        self.move = self.size
+        self.move_x = self.size
         self.move_y = 0
 
         self.moving_at_y = False
@@ -22,8 +22,8 @@ class Snake:
 
     def create_snake_body(self):
         for i in range(0, -5, -1):
-            x_coord = i * SIZE + 300
-            rect = pg.Rect(x_coord, 300, SIZE, SIZE)
+            x_coord = i * self.size + self.lt / 2
+            rect = pg.Rect(x_coord, self.lt / 2, self.size, self.size)
             self.body.append(rect)
 
     def draw_snake(self):
@@ -33,7 +33,7 @@ class Snake:
             pg.draw.rect(self.window, "blue", self.body[i])
 
     def extend(self):
-        new_rect = pg.Rect(self.body[-1].x, self.body[0].y, SIZE, SIZE)
+        new_rect = pg.Rect(self.body[-1].x, self.body[-1].y, self.size, self.size)
         self.body.append(new_rect)
 
     def move_snake(self):
@@ -54,24 +54,24 @@ class Snake:
 
     def move_up(self):
         self.move_x = 0
-        self.move_y = -MOVE
+        self.move_y = -self.move
         self.moving_at_y = True
         self.moving_at_x = False
 
     def move_down(self):
         self.move_x = 0
-        self.move_y = MOVE
+        self.move_y = self.move
         self.moving_at_y = True
         self.moving_at_x = False
 
     def move_left(self):
-        self.move_x = -MOVE
+        self.move_x = -self.move
         self.move_y = 0
         self.moving_at_y = False
         self.moving_at_x = True
 
     def move_right(self):
-        self.move_x = MOVE
+        self.move_x = self.move
         self.move_y = 0
         self.moving_at_y = False
         self.moving_at_x = True
