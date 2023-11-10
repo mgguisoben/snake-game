@@ -17,7 +17,7 @@ class Food:
         self.new_food()
 
     def create_food(self):
-        food = draw.circle(self.window, "red", (self.x, self.y), self.radius)
+        food = draw.rect(self.window, "#FAD586", (self.x, self.y, 16, 16), 0, 10)
         return food
 
     def new_food(self):

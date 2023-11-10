@@ -1,5 +1,9 @@
 import pygame as pg
 
+SNAKE_COLOR1 = "#96BB7C"
+SNAKE_COLOR2 = "#D6EFC7"
+
+
 
 class Snake:
 
@@ -27,10 +31,12 @@ class Snake:
             self.body.append(rect)
 
     def draw_snake(self):
+        pg.draw.rect(self.window, SNAKE_COLOR2, self.head, 0, 2)
+
         for i in range(len(self.body) - 1, 0, -1):
             self.body[i].x = self.body[i - 1].x
             self.body[i].y = self.body[i - 1].y
-            pg.draw.rect(self.window, "blue", self.body[i])
+            pg.draw.rect(self.window, SNAKE_COLOR1, self.body[i], 2, 2)
 
     def extend(self):
         new_rect = pg.Rect(self.body[-1].x, self.body[-1].y, self.size, self.size)
